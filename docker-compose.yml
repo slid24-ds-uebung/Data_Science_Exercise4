@@ -1,0 +1,17 @@
+services:
+  # Service 1: alle Tests ausfuehren (inkl. Library-Check).
+  tests:
+    build: .
+    volumes:
+      # Aktuelles Verzeichnis mounten, damit der Container immer den
+      # neuesten Code nutzt, ohne das Image neu zu bauen.
+      - .:/app
+    command: pytest -v
+
+  # Service 2: die Methode auf einer Eingabe laufen lassen.
+  # Eingabe ueberschreiben mit:  docker compose run run-method 5 5 7 7 9
+  run-method:
+    build: .
+    volumes:
+      - .:/app
+    command: python run_single.py 1 2 3 4 3 1 2
