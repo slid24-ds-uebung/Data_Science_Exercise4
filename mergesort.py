@@ -55,27 +55,37 @@ def merge_sort(values: list[int]) -> None:
         merged_index += 1
 
 
-def plot_values(values: list[int], title: str) -> None:
-    """Stellt die Werte als Balkendiagramm dar.
+def plot_before_after(values: list[int]) -> None:
+    """Zeigt die Werte vor und nach dem Sortieren als Balkendiagramme.
 
     Ein Balkendiagramm passt hier besser als ein Liniendiagramm: Die
     Werte sind unabhaengige Einzelwerte an diskreten Positionen, keine
-    zusammenhaengende Kurve.
+    zusammenhaengende Kurve. Beide Diagramme werden zum direkten
+    Vergleich nebeneinander in einer Figur dargestellt.
 
     Args:
-        values: Die darzustellenden Werte.
-        title: Titel des Diagramms.
+        values: Die darzustellenden Werte (wird nicht veraendert).
     """
+    sorted_values = values.copy()
+    merge_sort(sorted_values)
+
     positions = range(len(values))
-    plt.bar(positions, values)
-    plt.title(title)
-    plt.xlabel("Index")
-    plt.ylabel("Wert")
+    figure, (axis_before, axis_after) = plt.subplots(1, 2, figsize=(10, 4))
+
+    axis_before.bar(positions, values)
+    axis_before.set_title("Vor dem Sortieren")
+    axis_before.set_xlabel("Index")
+    axis_before.set_ylabel("Wert")
+
+    axis_after.bar(positions, sorted_values)
+    axis_after.set_title("Nach dem Sortieren")
+    axis_after.set_xlabel("Index")
+    axis_after.set_ylabel("Wert")
+
+    figure.tight_layout()
     plt.show()
 
 
 if __name__ == "__main__":
     numbers = [54, 26, 93, 17, 77, 31, 44, 55, 20]
-    plot_values(numbers, "Vor dem Sortieren")
-    merge_sort(numbers)
-    plot_values(numbers, "Nach dem Sortieren")
+    plot_before_after(numbers)
